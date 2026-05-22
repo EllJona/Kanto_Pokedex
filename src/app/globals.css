@@ -249,6 +249,11 @@ body {
     @apply border border-white/30 bg-white/90 text-slate-900 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-md;
   }
 
+  /** Modal / overlay — branco semi-transparente, fosco, texto escuro */
+  .glass-panel-frosted {
+    @apply border border-white/50 bg-white/70 text-slate-900 shadow-[0_24px_80px_rgba(0,0,0,0.4)] backdrop-blur-xl;
+  }
+
   .glass-field {
     @apply rounded-2xl border border-white/25 bg-black/45 text-white outline-none ring-amber-400/0 placeholder:text-white/45 focus:border-amber-400/50 focus:ring-4 focus:ring-amber-400/25;
   }

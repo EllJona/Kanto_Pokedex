@@ -397,18 +397,18 @@ export function GBABattleScene({ sim, onCommitRound, onExit }: Props) {
             </div>
           </BattleArenaBackground>
 
-          <div className="relative z-20 grid grid-cols-1 gap-0 overflow-hidden rounded-b border-t-4 border-[#101010] bg-[#282828]/90 lg:grid-cols-[minmax(0,1fr)_min(54%,600px)]">
-            <div className="gba-panel-glass m-2 flex min-h-[min(22vh,200px)] flex-col rounded-lg p-3 sm:m-3 sm:min-h-[min(24vh,220px)] sm:p-4">
-              <div className="gba-log flex flex-1 flex-col justify-center">
+          <div className="gba-command-bar relative z-20 grid grid-cols-1 gap-0 overflow-hidden rounded-b border-t-4 border-[#101010] bg-[#282828]/90 lg:grid-cols-[minmax(240px,36%)_minmax(0,1fr)]">
+            <div className="gba-log-panel gba-panel-glass m-2 flex flex-col rounded-lg p-2.5 sm:m-2.5 sm:p-3">
+              <div className="gba-log flex flex-1 flex-col justify-center overflow-y-auto">
                 {logTail.map((line, i) => (
                   <p key={`${sim.roundKey}-${i}-${line.slice(0, 14)}`}>{line}</p>
                 ))}
               </div>
             </div>
 
-            <div className="gba-menu-panel m-2 flex min-h-[min(32vh,300px)] flex-col justify-stretch p-2 sm:m-3 sm:min-h-[min(34vh,340px)] sm:p-3 lg:min-h-[min(36vh,380px)]">
+            <div className="gba-menu-panel m-2 flex flex-col justify-center p-2 sm:m-2.5 sm:p-2.5">
               {menuView === "main" ? (
-                <div className="gba-menu-grid h-full">
+                <div className="gba-menu-grid">
                   <button
                     type="button"
                     disabled={!canAct}
@@ -446,7 +446,7 @@ export function GBABattleScene({ sim, onCommitRound, onExit }: Props) {
                   </button>
                 </div>
               ) : menuView === "fight" ? (
-                <div className="gba-menu-grid gba-menu-grid--moves h-full">
+                <div className="gba-menu-grid gba-menu-grid--moves">
                   {displayMoves.map((mv) => (
                     <button
                       key={mv.id}
@@ -477,7 +477,7 @@ export function GBABattleScene({ sim, onCommitRound, onExit }: Props) {
                   </button>
                 </div>
               ) : (
-                <div className="gba-menu-grid gba-menu-grid--party h-full">
+                <div className="gba-menu-grid gba-menu-grid--party">
                   {sim.playerTeam.map((mon, i) => (
                     <button
                       key={`sw-${i}-${mon.speciesId}`}

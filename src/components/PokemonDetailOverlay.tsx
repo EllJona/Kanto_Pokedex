@@ -130,6 +130,8 @@ export function PokemonDetailOverlay({ id, preview, onClose, onNavigate }: Props
   }, [id, onClose]);
 
   const shell = preview ?? (pokemon ? mapToSummary(pokemon) : null);
+  const showFull =
+    !error && pokemon != null && species != null && chain != null;
 
   return (
     <AnimatePresence>
@@ -140,11 +142,14 @@ export function PokemonDetailOverlay({ id, preview, onClose, onNavigate }: Props
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: reduce ? 0.01 : UI_FAST.duration, ease: UI_FAST.ease }}
+          transition={{
+            duration: reduce ? 0.01 : UI_FAST.duration,
+            ease: UI_FAST.ease,
+          }}
         >
           <button
             type="button"
-            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/45 backdrop-blur-sm"
             aria-label="Fechar"
             onClick={onClose}
           />
@@ -156,11 +161,11 @@ export function PokemonDetailOverlay({ id, preview, onClose, onNavigate }: Props
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: reduce ? 0 : "18%", opacity: reduce ? 1 : 0.9 }}
             transition={reduce ? { duration: 0.01 } : UI_SPRING_PANEL}
-            className="relative z-[1] flex max-h-[min(94vh,920px)] w-full max-w-3xl flex-col overflow-hidden rounded-t-3xl border border-white/[0.1] bg-elevated/95 shadow-[0_-24px_80px_rgba(0,0,0,0.65)] backdrop-blur-xl sm:rounded-3xl"
+            className="glass-panel-frosted relative z-[1] flex max-h-[min(94vh,920px)] w-full max-w-3xl flex-col overflow-hidden rounded-t-3xl sm:rounded-3xl"
             style={
               pokemon
                 ? {
-                    boxShadow: `0 0 80px ${typePrimaryHex(mapToSummary(pokemon).types[0] ?? "normal")}22, 0 -24px 80px rgba(0,0,0,0.65)`,
+                    boxShadow: `0 0 60px ${typePrimaryHex(mapToSummary(pokemon).types[0] ?? "normal")}33, 0 24px 80px rgba(0,0,0,0.35)`,
                   }
                 : undefined
             }
@@ -168,25 +173,29 @@ export function PokemonDetailOverlay({ id, preview, onClose, onNavigate }: Props
             <button
               type="button"
               onClick={onClose}
-              className="absolute right-4 top-4 z-[2] rounded-full border border-white/10 bg-white/5 p-2 text-white/80 transition hover:bg-white/10 hover:text-white"
+              className="absolute right-4 top-4 z-[2] rounded-full border border-slate-200/90 bg-white/80 p-2 text-slate-600 shadow-sm transition hover:bg-white hover:text-slate-900"
             >
               <X className="h-5 w-5" />
             </button>
 
             {error && !loading && (
-              <p className="px-6 py-20 text-center text-red-300">{error}</p>
+              <p className="px-6 py-20 text-center font-medium text-red-600">
+                {error}
+              </p>
             )}
 
             {loading && !shell ? (
               <div className="flex flex-col items-center gap-3 px-6 py-20">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-amber-400" />
-                <p className="text-sm text-white/45">Carregando ficha…</p>
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-amber-500" />
+                <p className="text-sm text-slate-500">Carregando ficha…</p>
               </div>
             ) : null}
 
-            {loading && shell ? <DetailPreviewShell summary={shell} /> : null}
+            {loading && shell && !showFull ? (
+              <DetailPreviewShell summary={shell} />
+            ) : null}
 
-            {!error && pokemon && species && chain && (
+            {showFull && (
               <DetailBody
                 pokemon={pokemon}
                 species={species}
@@ -208,7 +217,7 @@ function DetailPreviewShell({ summary }: { summary: PokemonSummary }) {
     <div
       className="px-6 pb-8 pt-10 sm:px-10 sm:pt-12"
       style={{
-        background: `linear-gradient(180deg, ${hex}22 0%, transparent 42%)`,
+        background: `linear-gradient(180deg, ${hex}28 0%, transparent 42%)`,
       }}
     >
       <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
@@ -217,17 +226,17 @@ function DetailPreviewShell({ summary }: { summary: PokemonSummary }) {
             src={summary.sprite}
             alt={formatName(summary.name)}
             fill
-            className="object-contain opacity-90"
+            className="object-contain"
             priority
             unoptimized
             sizes="220px"
           />
         </div>
         <div className="min-w-0 flex-1 text-center sm:pt-2 sm:text-left">
-          <p className="mb-1 font-display text-xs font-semibold tracking-[0.25em] text-white/40">
+          <p className="mb-1 font-display text-xs font-semibold tracking-[0.25em] text-slate-500">
             #{String(summary.id).padStart(3, "0")}
           </p>
-          <h2 className="font-display text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl">
+          <h2 className="font-display text-3xl font-extrabold uppercase tracking-tight text-slate-900 sm:text-4xl">
             {formatName(summary.name)}
           </h2>
           <div className="mt-4 flex flex-wrap justify-center gap-2 sm:justify-start">
@@ -235,7 +244,9 @@ function DetailPreviewShell({ summary }: { summary: PokemonSummary }) {
               <TypeBadge key={t} type={t} />
             ))}
           </div>
-          <p className="mt-8 text-sm text-white/40">Carregando stats e evolução…</p>
+          <p className="mt-8 text-sm text-slate-500">
+            Carregando stats e evolução…
+          </p>
         </div>
       </div>
     </div>
@@ -276,7 +287,7 @@ function DetailBody({
       <div
         className="px-6 pb-8 pt-10 sm:px-10 sm:pt-12"
         style={{
-          background: `linear-gradient(180deg, ${hex}22 0%, transparent 42%)`,
+          background: `linear-gradient(180deg, ${hex}28 0%, transparent 42%)`,
         }}
       >
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
@@ -286,7 +297,7 @@ function DetailBody({
                 src={officialArtworkUrl(pokemon)}
                 alt={formatName(pokemon.name)}
                 fill
-                className="object-contain drop-shadow-[0_28px_56px_rgba(0,0,0,0.75)]"
+                className="object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
                 priority
                 unoptimized
                 sizes="220px"
@@ -294,12 +305,12 @@ function DetailBody({
             </div>
           </div>
           <div className="min-w-0 flex-1 text-center sm:pt-2 sm:text-left">
-            <p className="mb-1 font-display text-xs font-semibold tracking-[0.25em] text-white/40">
+            <p className="mb-1 font-display text-xs font-semibold tracking-[0.25em] text-slate-500">
               #{String(pokemon.id).padStart(3, "0")}
             </p>
             <h2
               id="poke-detail-title"
-              className="font-display text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl"
+              className="font-display text-3xl font-extrabold uppercase tracking-tight text-slate-900 sm:text-4xl"
             >
               {formatName(pokemon.name)}
             </h2>
@@ -310,27 +321,30 @@ function DetailBody({
             </div>
             <dl className="mt-6 flex flex-wrap justify-center gap-8 text-sm sm:justify-start">
               <div>
-                <dt className="text-white/45">Altura</dt>
-                <dd className="font-semibold text-white">{heightM} m</dd>
+                <dt className="text-slate-500">Altura</dt>
+                <dd className="font-semibold text-slate-900">{heightM} m</dd>
               </div>
               <div>
-                <dt className="text-white/45">Peso</dt>
-                <dd className="font-semibold text-white">{weightKg} kg</dd>
+                <dt className="text-slate-500">Peso</dt>
+                <dd className="font-semibold text-slate-900">{weightKg} kg</dd>
               </div>
             </dl>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-white/[0.06] px-6 py-8 sm:px-10">
-        <h3 className="mb-5 font-display text-xs font-bold uppercase tracking-[0.35em] text-white/40">
+      <div className="border-t border-slate-200/80 px-6 py-8 sm:px-10">
+        <h3 className="mb-5 font-display text-xs font-bold uppercase tracking-[0.35em] text-slate-500">
           Base stats
         </h3>
         <ul className="space-y-4">
           {stats.map((s, i) => {
             const key = s.stat.name;
             const label = STAT_PT[key] ?? key;
-            const pct = Math.min(100, Math.round((s.base_stat / STAT_CAP) * 100));
+            const pct = Math.min(
+              100,
+              Math.round((s.base_stat / STAT_CAP) * 100)
+            );
             return (
               <motion.li
                 key={key}
@@ -344,10 +358,12 @@ function DetailBody({
                 }}
               >
                 <div className="mb-1.5 flex justify-between text-xs">
-                  <span className="font-medium text-white/70">{label}</span>
-                  <span className="tabular-nums text-white/45">{s.base_stat}</span>
+                  <span className="font-medium text-slate-700">{label}</span>
+                  <span className="tabular-nums text-slate-500">
+                    {s.base_stat}
+                  </span>
                 </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+                <div className="h-1.5 overflow-hidden rounded-full bg-slate-200">
                   <motion.div
                     className="h-full rounded-full"
                     initial={{ width: 0 }}
@@ -359,7 +375,7 @@ function DetailBody({
                       ease: UI_FAST.ease,
                     }}
                     style={{
-                      background: `linear-gradient(90deg, ${hex}, rgba(255,255,255,0.35))`,
+                      background: `linear-gradient(90deg, ${hex}, ${hex}99)`,
                     }}
                   />
                 </div>
@@ -369,30 +385,30 @@ function DetailBody({
         </ul>
       </div>
 
-      <div className="border-t border-white/[0.06] px-6 py-8 sm:px-10">
-        <h3 className="mb-2 font-display text-xs font-bold uppercase tracking-[0.35em] text-white/40">
+      <div className="border-t border-slate-200/80 px-6 py-8 sm:px-10">
+        <h3 className="mb-2 font-display text-xs font-bold uppercase tracking-[0.35em] text-slate-500">
           Linha de evolução
         </h3>
-        <p className="mb-6 text-sm text-white/45">
+        <p className="mb-6 text-sm text-slate-600">
           Antes, depois e cadeia completa.
         </p>
-        <div className="mb-8 flex flex-wrap gap-4 text-sm text-white/70">
+        <div className="mb-8 flex flex-wrap gap-4 text-sm text-slate-700">
           <div>
-            <span className="text-white/40">Evolui de: </span>
+            <span className="text-slate-500">Evolui de: </span>
             {neighbors.prev ? (
               <button
                 type="button"
                 onClick={() => neighbors.prev && onNavigate(neighbors.prev.id)}
-                className="font-semibold capitalize text-amber-200 underline-offset-2 hover:underline"
+                className="font-semibold capitalize text-amber-700 underline-offset-2 hover:text-amber-800 hover:underline"
               >
                 {formatName(neighbors.prev.name)}
               </button>
             ) : (
-              <span className="text-white/35">— base</span>
+              <span className="text-slate-400">— base</span>
             )}
           </div>
           <div>
-            <span className="text-white/40">Evolui para: </span>
+            <span className="text-slate-500">Evolui para: </span>
             {neighbors.next.length ? (
               <span className="inline-flex flex-wrap gap-2">
                 {neighbors.next.map((n) => (
@@ -400,14 +416,14 @@ function DetailBody({
                     key={n.id}
                     type="button"
                     onClick={() => onNavigate(n.id)}
-                    className="font-semibold capitalize text-amber-200 underline-offset-2 hover:underline"
+                    className="font-semibold capitalize text-amber-700 underline-offset-2 hover:text-amber-800 hover:underline"
                   >
                     {formatName(n.name)}
                   </button>
                 ))}
               </span>
             ) : (
-              <span className="text-white/35">— final</span>
+              <span className="text-slate-400">— final</span>
             )}
           </div>
         </div>
@@ -415,7 +431,7 @@ function DetailBody({
           {fullLine.map((node, i) => (
             <Fragment key={node.id}>
               {i > 0 && (
-                <span className="shrink-0 px-1 text-white/25" aria-hidden>
+                <span className="shrink-0 px-1 text-slate-400" aria-hidden>
                   →
                 </span>
               )}
@@ -425,8 +441,8 @@ function DetailBody({
                 onClick={() => node.id !== pokemon.id && onNavigate(node.id)}
                 className={`flex shrink-0 flex-col items-center rounded-2xl border px-3 py-3 transition ${
                   node.id === pokemon.id
-                    ? "border-amber-400/50 bg-amber-400/10"
-                    : "border-white/[0.08] bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]"
+                    ? "border-amber-400/60 bg-amber-50 shadow-sm"
+                    : "border-slate-200/90 bg-white/60 hover:border-slate-300 hover:bg-white/90"
                 }`}
               >
                 <div className="relative h-14 w-14">
@@ -439,7 +455,7 @@ function DetailBody({
                     sizes="56px"
                   />
                 </div>
-                <span className="mt-1 max-w-[88px] truncate text-center text-[10px] font-semibold capitalize text-white/80">
+                <span className="mt-1 max-w-[88px] truncate text-center text-[10px] font-semibold capitalize text-slate-800">
                   {formatName(node.name)}
                 </span>
               </button>

@@ -34,7 +34,7 @@ type AudioCtx = {
 
 const AudioContext = createContext<AudioCtx | null>(null);
 
-const DEX_VOL = 0.28;
+const DEX_VOL = 0.22;
 const BATTLE_VOL = 0.35;
 
 function readMutedPreference(): boolean {

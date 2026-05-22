@@ -1,12 +1,13 @@
 /**
  * BGM estilo Game Boy (composição original, loop).
- * Usado quando não há MP3 em public/audio/.
+ * Modo "dex" = arpejo lento estilo Centro Pokémon.
  */
 
 type BgmVariant = "dex" | "battle";
 
 const F = {
   C3: 130.81,
+  G2: 98.0,
   E3: 164.81,
   G3: 196.0,
   A3: 220.0,
@@ -18,10 +19,10 @@ const F = {
   C5: 523.25,
 } as const;
 
-/** 16 passos — pentatónica maior, vibe “rota” Gen I. */
+/** Arpejo suave C maior — vibe Centro Pokémon. */
 const DEX_LEAD = [
-  F.E4, 0, F.G4, F.E4, F.C4, 0, F.D4, F.E4,
-  F.G4, 0, F.A4, F.G4, F.E4, F.D4, F.C4, 0,
+  F.E4, F.G4, F.C5, F.G4, F.E4, F.C4, 0, F.G4,
+  F.E4, F.G4, F.A4, F.G4, F.E4, F.C4, F.G3, 0,
 ] as const;
 
 const BATTLE_LEAD = [
@@ -29,7 +30,7 @@ const BATTLE_LEAD = [
   F.E4, F.G4, F.A4, F.A4, F.G4, F.E4, F.D4, F.C4,
 ] as const;
 
-const DEX_BASS = [F.C3, F.C3, F.G3, F.G3, F.A3, F.A3, F.G3, F.G3] as const;
+const DEX_BASS = [F.C3, F.G2, F.C3, F.G2, F.A3, F.G2, F.C3, F.G2] as const;
 const BATTLE_BASS = [F.C3, F.G3, F.A3, F.G3, F.C3, F.G3, F.A3, F.E3] as const;
 
 export class ProceduralBgm {
@@ -118,16 +119,28 @@ export class ProceduralBgm {
 
   private tick() {
     if (!this.running || !this.ctx || !this.master) return;
-    const bpm = this.variant === "battle" ? 128 : 104;
+    const isDex = this.variant === "dex";
+    const bpm = isDex ? 76 : 128;
     const beat = 60 / bpm / 2;
-    const lead = this.variant === "battle" ? BATTLE_LEAD : DEX_LEAD;
-    const bass = this.variant === "battle" ? BATTLE_BASS : DEX_BASS;
+    const lead = isDex ? DEX_LEAD : BATTLE_LEAD;
+    const bass = isDex ? DEX_BASS : BATTLE_BASS;
     const i = this.step % 16;
     const bassIdx = Math.floor(i / 2) % 8;
 
     const freq = lead[i];
-    if (freq > 0) this.blip(freq, 0.09, "triangle", 0.22);
-    this.blip(bass[bassIdx], beat * 1.8, "square", 0.1);
+    if (freq > 0) {
+      this.blip(
+        freq,
+        isDex ? beat * 2.2 : 0.09,
+        isDex ? "sine" : "triangle",
+        isDex ? 0.14 : 0.22
+      );
+    }
+    if (isDex) {
+      this.blip(bass[bassIdx], beat * 2.4, "sine", 0.06);
+    } else {
+      this.blip(bass[bassIdx], beat * 1.8, "square", 0.1);
+    }
 
     this.step += 1;
     this.timer = setTimeout(() => this.tick(), beat * 1000);
@@ -148,7 +161,7 @@ export class ProceduralBgm {
     osc.type = type;
     osc.frequency.value = freq;
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(gainPeak * this.volume, t + 0.012);
+    g.gain.linearRampToValueAtTime(gainPeak * this.volume, t + 0.02);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     osc.connect(g);
     g.connect(master);
