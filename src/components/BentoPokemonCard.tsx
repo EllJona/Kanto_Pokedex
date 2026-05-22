@@ -85,8 +85,8 @@ export function BentoPokemonCard({ pokemon, index, onOpen, selected }: Props) {
         transformStyle: "preserve-3d",
         transformPerspective: 900,
         boxShadow: hovered
-          ? `0 0 40px ${hex}44, 0 16px 40px rgba(42,90,140,0.2)`
-          : "0 8px 28px rgba(42,90,140,0.12)",
+          ? `0 0 36px ${hex}55, 0 12px 32px rgba(0,0,0,0.35)`
+          : undefined,
       }}
       whileHover={
         reduce
@@ -99,21 +99,21 @@ export function BentoPokemonCard({ pokemon, index, onOpen, selected }: Props) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={onLeave}
       onClick={() => onOpen(pokemon.id)}
-      className={`glass-panel-card group relative flex h-full min-h-[248px] flex-col overflow-hidden rounded-3xl p-4 text-left transition-colors hover:border-white/50 sm:min-h-[260px] ${
-        selected ? "ring-2 ring-amber-500/45" : ""
+      className={`pokemon-card-outline group relative flex h-full min-h-[248px] flex-col overflow-hidden p-4 text-left transition-shadow sm:min-h-[260px] ${
+        selected ? "pokemon-card-outline--selected" : ""
       }`}
     >
       <div
-        className="pointer-events-none absolute inset-0 opacity-40 transition group-hover:opacity-70"
+        className="pointer-events-none absolute inset-0 opacity-25 transition group-hover:opacity-45"
         style={{
-          background: `radial-gradient(80% 60% at 50% 0%, ${hex}38, transparent 70%)`,
+          background: `radial-gradient(80% 60% at 50% 20%, ${hex}44, transparent 72%)`,
         }}
       />
       <div
         className="holo-foil pointer-events-none absolute inset-0 rounded-3xl"
         aria-hidden
       />
-      <span className="relative z-[1] font-display text-[10px] font-bold tracking-[0.2em] text-slate-500">
+      <span className="relative z-[1] font-display text-[10px] font-bold tracking-[0.2em] text-white/55">
         #{String(pokemon.id).padStart(3, "0")}
       </span>
       <div className="relative z-[1] mt-1 flex flex-1 flex-col items-center justify-end">
@@ -122,13 +122,13 @@ export function BentoPokemonCard({ pokemon, index, onOpen, selected }: Props) {
             src={pokemon.sprite}
             alt={formatName(pokemon.name)}
             fill
-            className="object-contain object-bottom drop-shadow-[0_12px_24px_rgba(30,74,110,0.35)]"
+            className="object-contain object-bottom drop-shadow-[0_14px_28px_rgba(0,0,0,0.45)]"
             sizes="(max-width: 640px) 40vw, 168px"
             priority={pokemon.id <= 6}
             unoptimized
           />
         </div>
-        <h3 className="relative z-[1] mt-2 w-full text-center font-display text-xs font-bold uppercase leading-snug tracking-wide text-slate-800 sm:text-sm">
+        <h3 className="text-shadow-pokemon relative z-[1] mt-2 w-full text-center font-display text-xs font-bold uppercase leading-snug tracking-wide text-white sm:text-sm">
           {formatName(pokemon.name)}
         </h3>
         <div className="relative z-[1] mt-2 flex flex-wrap justify-center gap-1">

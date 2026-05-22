@@ -373,31 +373,41 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                       ))}
                     </div>
                   </div>
-                  <div className="max-h-[min(70vh,560px)] min-h-[360px] overflow-y-auto rounded-2xl border border-white/15 bg-black/30 p-3 sm:p-4">
+                  <div className="scrollbar-kanto h-[min(76vh,860px)] overflow-y-auto overflow-x-hidden rounded-2xl border border-white/15 bg-black/30 p-3 pr-2 sm:p-4 sm:pr-3">
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
                       {filteredDex.map((p) => {
-                        const taken = userIds.includes(p.id);
+                        const inTeam = userIds.includes(p.id);
                         return (
                           <button
                             key={p.id}
                             type="button"
-                            disabled={taken || !userTeam.some((s) => s === null)}
+                            disabled={
+                              inTeam || !userTeam.some((s) => s === null)
+                            }
                             onClick={() => {
                               playClick();
                               addToUser(p);
                             }}
-                            className="glass-panel-card flex min-h-[148px] flex-col rounded-2xl p-3 text-left transition hover:border-amber-400/50 disabled:cursor-not-allowed disabled:opacity-35 sm:min-h-[168px] sm:p-4"
+                            className={`pokemon-card-outline group relative flex min-h-[148px] flex-col p-3 text-left transition disabled:cursor-not-allowed disabled:opacity-35 sm:min-h-[168px] sm:p-4 ${
+                              inTeam ? "pokemon-card-outline--selected" : ""
+                            }`}
                           >
-                            <div
-                              className="mx-auto mb-3 aspect-square w-full max-w-[112px] flex-1 bg-contain bg-center bg-no-repeat sm:max-w-[128px] [image-rendering:pixelated]"
-                              style={{ backgroundImage: `url(${p.sprite})` }}
-                            />
-                            <p className="truncate text-xs font-semibold capitalize text-slate-800 sm:text-sm">
-                              {p.name.replace(/-/g, " ")}
-                            </p>
-                            <p className="text-[11px] text-slate-500 sm:text-xs">
+                            <span className="relative z-[1] font-display text-[10px] font-bold tracking-[0.2em] text-white/55">
                               #{String(p.id).padStart(3, "0")}
-                            </p>
+                            </span>
+                            <div
+                              className="relative z-[1] mx-auto mt-1 flex flex-1 flex-col items-center justify-end"
+                            >
+                              <div
+                                className="aspect-square w-full max-w-[112px] flex-1 bg-contain bg-bottom bg-no-repeat sm:max-w-[128px] [image-rendering:pixelated]"
+                                style={{
+                                  backgroundImage: `url(${p.sprite})`,
+                                }}
+                              />
+                              <p className="text-shadow-pokemon mt-2 w-full truncate text-center font-display text-xs font-bold uppercase tracking-wide text-white sm:text-sm">
+                                {p.name.replace(/-/g, " ")}
+                              </p>
+                            </div>
                           </button>
                         );
                       })}

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { ExternalLink, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { AudioToggle } from "@/components/AudioToggle";
@@ -65,15 +65,6 @@ export function FloatingNav({ onLogoClick }: Props) {
         >
           Batalha
         </Link>
-        <a
-          href="https://pokeapi.co/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1 rounded-full px-3 py-2 text-[10px] font-medium text-white/55 transition hover:bg-white/10 hover:text-white/90 sm:text-xs"
-        >
-          API
-          <ExternalLink className="h-3 w-3" aria-hidden />
-        </a>
         <span className="h-4 w-px bg-white/20" aria-hidden />
         <AudioToggle />
       </nav>

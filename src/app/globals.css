@@ -254,6 +254,118 @@ body {
     @apply border border-white/50 bg-white/70 text-slate-900 shadow-[0_24px_80px_rgba(0,0,0,0.4)] backdrop-blur-xl;
   }
 
+  /** Modal / overlay — preto semi-transparente, fosco */
+  .glass-panel-frosted-dark {
+    @apply border border-white/15 bg-black/55 text-white shadow-[0_24px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  /** Scroll fino — cores do contorno dos cards (amarelo → verde) */
+  .scrollbar-kanto {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(92, 184, 72, 0.95) rgba(0, 0, 0, 0.28);
+  }
+
+  .scrollbar-kanto::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-kanto::-webkit-scrollbar-track {
+    margin: 4px 0;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.28);
+  }
+
+  .scrollbar-kanto::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    border: 1px solid rgba(248, 200, 48, 0.35);
+    background: linear-gradient(
+      180deg,
+      rgba(248, 200, 48, 0.95) 0%,
+      rgba(120, 200, 80, 0.9) 50%,
+      rgba(92, 184, 72, 0.95) 100%
+    );
+    box-shadow: 0 0 8px rgba(248, 200, 48, 0.25);
+  }
+
+  .scrollbar-kanto::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(248, 208, 48, 1) 0%,
+      rgba(92, 184, 72, 1) 100%
+    );
+  }
+
+  /** Card Pokédex — só contorno (gradiente da barra de progresso) */
+  .pokemon-card-outline {
+    @apply relative rounded-3xl bg-transparent text-white;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+  }
+
+  .pokemon-card-outline::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(
+      135deg,
+      rgba(248, 200, 48, 0.9) 0%,
+      rgba(120, 200, 80, 0.85) 55%,
+      rgba(92, 184, 72, 0.9) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.72;
+    transition: opacity 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .pokemon-card-outline:hover,
+  .pokemon-card-outline:focus-visible {
+    box-shadow:
+      0 0 20px rgba(248, 200, 48, 0.28),
+      0 12px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  .pokemon-card-outline:hover::before,
+  .pokemon-card-outline:focus-visible::before {
+    opacity: 1;
+  }
+
+  .pokemon-card-outline--selected {
+    box-shadow:
+      0 0 24px rgba(248, 200, 48, 0.38),
+      0 12px 36px rgba(0, 0, 0, 0.4);
+  }
+
+  .pokemon-card-outline--selected::before {
+    opacity: 1;
+    padding: 2px;
+    background: linear-gradient(
+      135deg,
+      rgba(248, 208, 48, 1) 0%,
+      rgba(92, 184, 72, 1) 100%
+    );
+  }
+
   .glass-field {
     @apply rounded-2xl border border-white/25 bg-black/45 text-white outline-none ring-amber-400/0 placeholder:text-white/45 focus:border-amber-400/50 focus:ring-4 focus:ring-amber-400/25;
   }
