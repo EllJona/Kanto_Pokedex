@@ -99,7 +99,7 @@ export function BentoPokemonCard({ pokemon, index, onOpen, selected }: Props) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={onLeave}
       onClick={() => onOpen(pokemon.id)}
-      className={`group relative flex h-full min-h-[248px] flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white/75 p-4 text-left shadow-[0_8px_28px_rgba(42,90,140,0.1)] backdrop-blur-xl transition-colors hover:border-slate-300 hover:bg-white/90 sm:min-h-[260px] ${
+      className={`glass-panel-card group relative flex h-full min-h-[248px] flex-col overflow-hidden rounded-3xl p-4 text-left transition-colors hover:border-white/50 sm:min-h-[260px] ${
         selected ? "ring-2 ring-amber-500/45" : ""
       }`}
     >

@@ -5,8 +5,10 @@ import { Swords } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ExperiencePageHero } from "@/components/experience/ExperiencePageHero";
+import { ScrollRevealLines } from "@/components/experience/ScrollRevealLines";
+import { SectionReveal } from "@/components/experience/SectionReveal";
 import { FloatingNav } from "@/components/FloatingNav";
-import { SmoothScroll } from "@/components/SmoothScroll";
 import { BATTLE_LEVEL, buildBattlePokemon } from "@/lib/battle/buildMon";
 import { filterOpponentPool, rollOpponentTeam } from "@/lib/battle/opponentPool";
 import type { BattlePokemon } from "@/lib/battle/types";
@@ -52,7 +54,7 @@ function SlotCard({
       className="glass-panel flex items-center gap-3 rounded-2xl p-3"
     >
       <motion.div
-        className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-white/80"
+        className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-white/25 bg-black/35"
         animate={{ y: [0, -4, 0] }}
         transition={{ repeat: Infinity, duration: 2.6, ease: "easeInOut" }}
       >
@@ -64,10 +66,10 @@ function SlotCard({
         />
       </motion.div>
       <div className="min-w-0 flex-1">
-        <p className="truncate font-display text-sm font-semibold capitalize text-slate-800">
+        <p className="truncate font-display text-sm font-semibold capitalize text-white">
           {mon.name.replace(/-/g, " ")}
         </p>
-        <p className="text-[10px] uppercase tracking-widest text-amber-200/90">
+        <p className="text-[10px] uppercase tracking-widest text-amber-300/95">
           Nv. {BATTLE_LEVEL}
         </p>
         <div className="mt-1 flex flex-wrap gap-1">
@@ -82,7 +84,7 @@ function SlotCard({
           ))}
         </div>
         {subtitle ? (
-          <p className="mt-1 text-[10px] text-emerald-300/90">{subtitle}</p>
+          <p className="mt-1 text-[10px] text-emerald-300/95">{subtitle}</p>
         ) : null}
       </div>
     </motion.div>
@@ -203,7 +205,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
   );
 
   return (
-    <SmoothScroll>
+    <>
       <FloatingNav onLogoClick={() => router.push("/")} />
       {/* Coloque o rip da música de treinador FRLG em public/battle/trainer-battle.mp3 (uso pessoal / direitos reservados à Nintendo). */}
       <audio
@@ -215,7 +217,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
         className="hidden"
       />
 
-      <div className="relative min-h-screen pb-24 pt-24 text-slate-800">
+      <div className="relative min-h-screen pb-24 pt-24 text-white">
         <div
           className={`mx-auto px-4 sm:px-8 ${
             phase === "fight" || phase === "intro"
@@ -223,30 +225,29 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
               : "max-w-[min(98vw,1280px)]"
           }`}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
-          >
-            <div>
-              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.35em] text-amber-400/80">
-                Arena
-              </p>
-              <h1 className="text-shadow-pokemon font-display text-3xl font-bold text-white sm:text-4xl">
-                Batalha 5×5
-              </h1>
-              <p className="mt-2 max-w-xl text-sm text-[#1e4a68]/85">
-                Monte seu time Kanto, encontre um oponente e escolha os
-                movimentos no visor GBA — o oponente reage automaticamente.
-              </p>
-            </div>
-            <Link
-              href="/"
-              className="glass-panel inline-flex items-center justify-center rounded-2xl px-5 py-3 text-xs font-semibold uppercase tracking-widest text-slate-700 transition hover:border-slate-400 hover:text-slate-900"
-            >
-              Voltar ao Grid
-            </Link>
-          </motion.div>
+          <ExperiencePageHero
+            eyebrow="Arena"
+            title="Batalha 5×5"
+            description="Monte seu time Kanto, encontre um oponente e escolha os movimentos no visor GBA — o oponente reage automaticamente."
+            action={
+              <Link
+                href="/"
+                className="glass-panel inline-flex items-center justify-center rounded-2xl px-5 py-3 text-xs font-semibold uppercase tracking-widest text-white/90 transition hover:border-white/35 hover:text-white"
+              >
+                Voltar ao Grid
+              </Link>
+            }
+          />
+
+          {(phase === "select" || phase === "loading") && (
+            <ScrollRevealLines
+              lines={[
+                "O rival espera na relva — mas a ordem dos ataques é sua.",
+                "Cinco Pokémon, um visor GBA, e a rota inteira como plateia.",
+              ]}
+              attribution="— arena Kanto"
+            />
+          )}
 
           {loadError ? (
             <p className="mb-6 rounded-2xl border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
@@ -269,11 +270,16 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                 transition={{ duration: 0.14 }}
                 className="space-y-8"
               >
+                <SectionReveal
+                  eyebrow="Preparação"
+                  title="Montar equipes"
+                  description="Escolha cinco Pokémon, encontre um oponente e leia a sinergia antes de entrar na arena."
+                />
                 <div className="grid gap-6 xl:grid-cols-12">
                   <section className="glass-panel rounded-3xl p-5 sm:p-6 xl:col-span-4">
                     <div className="mb-4 flex items-center gap-2">
-                      <Swords className="h-5 w-5 text-amber-300" />
-                      <h2 className="font-display text-lg text-slate-800">
+                      <Swords className="h-5 w-5 text-amber-400" />
+                      <h2 className="font-display text-lg text-white">
                         Seu time
                       </h2>
                     </div>
@@ -286,13 +292,13 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                               <button
                                 type="button"
                                 onClick={() => clearUserSlot(i)}
-                                className="absolute right-2 top-2 rounded-lg border border-slate-300 bg-white/90 px-2 py-1 text-[10px] uppercase text-slate-600 hover:text-slate-900"
+                                className="absolute right-2 top-2 rounded-lg border border-white/25 bg-black/50 px-2 py-1 text-[10px] uppercase text-white/80 hover:bg-black/70 hover:text-white"
                               >
                                 Remover
                               </button>
                             </div>
                           ) : (
-                            <div className="flex h-[118px] items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white/40 text-xs text-slate-500">
+                            <div className="flex h-[118px] items-center justify-center rounded-2xl border border-dashed border-white/25 bg-black/25 text-xs text-white/50">
                               Slot {i + 1}
                             </div>
                           )}
@@ -302,7 +308,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                   </section>
 
                   <section className="glass-panel rounded-3xl p-5 sm:p-6 xl:col-span-4">
-                    <h2 className="mb-4 font-display text-lg text-slate-800">
+                    <h2 className="mb-4 font-display text-lg text-white">
                       Oponente
                     </h2>
                     <button
@@ -311,7 +317,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                         playClick();
                         findOpponent();
                       }}
-                      className="mb-4 w-full rounded-2xl border border-amber-500/45 bg-amber-400/20 py-3 text-xs font-bold uppercase tracking-widest text-amber-900 transition hover:bg-amber-400/35"
+                      className="mb-4 w-full rounded-2xl border border-amber-400/50 bg-amber-400/20 py-3 text-xs font-bold uppercase tracking-widest text-amber-50 transition hover:bg-amber-400/35"
                     >
                       Encontrar oponente
                     </button>
@@ -321,7 +327,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                           {slot ? (
                             <SlotCard mon={slot} subtitle="Em pé" />
                           ) : (
-                            <div className="flex h-[118px] items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white/40 text-xs text-slate-500">
+                            <div className="flex h-[118px] items-center justify-center rounded-2xl border border-dashed border-white/25 bg-black/25 text-xs text-white/50">
                               Slot {i + 1}
                             </div>
                           )}
@@ -339,7 +345,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                 </div>
 
                 <section className="glass-panel rounded-3xl p-6 sm:p-8">
-                  <h3 className="mb-5 font-display text-base uppercase tracking-widest text-slate-700 sm:text-lg">
+                  <h3 className="mb-5 font-display text-base uppercase tracking-widest text-white/90 sm:text-lg">
                     Escolha Pokémon (Gen I)
                   </h3>
                   <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-center">
@@ -348,7 +354,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
                       placeholder="Buscar nome ou número…"
-                      className="w-full max-w-lg rounded-2xl border border-slate-300/80 bg-white/90 px-5 py-3.5 text-base text-slate-800 outline-none ring-amber-400/0 focus:border-amber-500/50 focus:ring-4 focus:ring-amber-400/20"
+                      className="glass-field w-full max-w-lg px-5 py-3.5 text-base"
                     />
                     <div className="flex flex-wrap gap-2">
                       {typesPresent.map((t) => (
@@ -358,8 +364,8 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                           onClick={() => setTypeFilter(t)}
                           className={`rounded-full border px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wider sm:text-xs ${
                             typeFilter === t
-                              ? "border-amber-500/55 bg-amber-400/25 text-amber-900"
-                              : "border-slate-300/70 bg-white/50 text-slate-600"
+                              ? "border-amber-400/55 bg-amber-400/25 text-amber-50"
+                              : "border-white/25 bg-black/35 text-white/75 hover:border-white/40 hover:text-white"
                           }`}
                         >
                           {t === "all" ? "Todos" : t}
@@ -367,7 +373,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                       ))}
                     </div>
                   </div>
-                  <div className="max-h-[min(70vh,560px)] min-h-[360px] overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/50 p-3 sm:p-4">
+                  <div className="max-h-[min(70vh,560px)] min-h-[360px] overflow-y-auto rounded-2xl border border-white/15 bg-black/30 p-3 sm:p-4">
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
                       {filteredDex.map((p) => {
                         const taken = userIds.includes(p.id);
@@ -380,7 +386,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                               playClick();
                               addToUser(p);
                             }}
-                            className="flex min-h-[148px] flex-col rounded-2xl border border-slate-200/90 bg-white/70 p-3 text-left shadow-sm transition hover:border-amber-400/50 hover:bg-white disabled:cursor-not-allowed disabled:opacity-35 sm:min-h-[168px] sm:p-4"
+                            className="glass-panel-card flex min-h-[148px] flex-col rounded-2xl p-3 text-left transition hover:border-amber-400/50 disabled:cursor-not-allowed disabled:opacity-35 sm:min-h-[168px] sm:p-4"
                           >
                             <div
                               className="mx-auto mb-3 aspect-square w-full max-w-[112px] flex-1 bg-contain bg-center bg-no-repeat sm:max-w-[128px] [image-rendering:pixelated]"
@@ -407,7 +413,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                       playClick();
                       void startBattle();
                     }}
-                    className="rounded-full border border-emerald-600/40 bg-emerald-500/25 px-10 py-4 text-sm font-bold uppercase tracking-[0.2em] text-emerald-900 shadow-[0_8px_28px_rgba(34,120,72,0.2)] transition enabled:hover:bg-emerald-500/40 disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-white/40 disabled:text-slate-400 disabled:shadow-none"
+                    className="rounded-full border border-emerald-400/45 bg-emerald-500/30 px-10 py-4 text-sm font-bold uppercase tracking-[0.2em] text-emerald-50 shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition enabled:hover:bg-emerald-500/45 disabled:cursor-not-allowed disabled:border-white/20 disabled:bg-black/30 disabled:text-white/35 disabled:shadow-none"
                   >
                     {phase === "loading" ? "Preparando…" : "Iniciar batalha"}
                   </button>
@@ -453,7 +459,7 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
                     }}
                   />
                 ) : (
-                  <p className="py-16 text-center text-sm text-slate-600">
+                  <p className="text-on-bg py-16 text-center text-sm">
                     Preparando simulador…
                   </p>
                 )}
@@ -462,6 +468,6 @@ export function BattlePageClient({ initialSummaries, loadError }: Props) {
           </AnimatePresence>
         </div>
       </div>
-    </SmoothScroll>
+    </>
   );
 }

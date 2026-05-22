@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Geist, Geist_Mono, Syne } from "next/font/google";
+import { ExperienceShell } from "@/components/experience/ExperienceShell";
 import { PokemonSiteBackground } from "@/components/PokemonSiteBackground";
 import { AppProviders } from "@/components/providers/AppProviders";
 import "lenis/dist/lenis.css";
@@ -42,10 +43,12 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} ${cormorant.variable} min-h-screen font-sans text-kanto-ink antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} ${cormorant.variable} min-h-screen font-sans text-white antialiased`}
       >
         <PokemonSiteBackground />
-        <AppProviders>{children}</AppProviders>
+        <AppProviders>
+          <ExperienceShell>{children}</ExperienceShell>
+        </AppProviders>
       </body>
     </html>
   );

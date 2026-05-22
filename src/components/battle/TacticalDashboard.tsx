@@ -33,28 +33,28 @@ export function TacticalDashboard({ teamStats, loading }: Props) {
   return (
     <section className="glass-panel flex h-full flex-col rounded-3xl p-5 sm:p-6">
       <div className="mb-4 flex items-center justify-between gap-2">
-        <h2 className="font-display text-lg text-slate-800">Sinergia tática</h2>
-        <span className="rounded-full border border-amber-400/40 bg-amber-400/15 px-2.5 py-1 text-[10px] font-bold tabular-nums text-amber-900">
+        <h2 className="font-display text-lg text-white">Sinergia tática</h2>
+        <span className="rounded-full border border-amber-400/40 bg-amber-400/15 px-2.5 py-1 text-[10px] font-bold tabular-nums text-amber-100">
           {loading ? "…" : `${report.coverageScore}%`}
         </span>
       </div>
 
       <div className="relative mx-auto h-[220px] w-full max-w-[280px]">
         {loading ? (
-          <div className="flex h-full items-center justify-center text-xs text-slate-500">
+          <div className="flex h-full items-center justify-center text-xs text-white/50">
             Calculando stats…
           </div>
         ) : teamStats.length === 0 ? (
-          <div className="flex h-full items-center justify-center px-4 text-center text-xs text-slate-500">
+          <div className="flex h-full items-center justify-center px-4 text-center text-xs text-white/50">
             Adicione Pokémon ao time para ver o radar e fraquezas.
           </div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
             <RadarChart data={chartData} cx="50%" cy="50%" outerRadius="72%">
-              <PolarGrid stroke="rgba(26,51,72,0.15)" />
+              <PolarGrid stroke="rgba(255,255,255,0.12)" />
               <PolarAngleAxis
                 dataKey="stat"
-                tick={{ fill: "rgba(26,51,72,0.65)", fontSize: 9 }}
+                tick={{ fill: "rgba(255,255,255,0.65)", fontSize: 9 }}
               />
               <PolarRadiusAxis
                 angle={30}
@@ -76,7 +76,7 @@ export function TacticalDashboard({ teamStats, loading }: Props) {
       </div>
 
       <div className="mt-4 flex-1 space-y-4 text-sm">
-        <p className="text-xs leading-relaxed text-slate-600">{report.summary}</p>
+        <p className="text-xs leading-relaxed text-white/70">{report.summary}</p>
 
         {report.weaknesses.length > 0 ? (
           <div>
@@ -111,7 +111,7 @@ export function TacticalDashboard({ teamStats, loading }: Props) {
               {report.resistances.map((r) => (
                 <li
                   key={r.type}
-                  className="rounded-full border border-slate-300/80 bg-white/70 px-2 py-0.5 text-[10px] font-bold uppercase text-slate-700"
+                  className="rounded-full border border-white/20 bg-black/35 px-2 py-0.5 text-[10px] font-bold uppercase text-white/80"
                 >
                   {r.type}
                 </li>

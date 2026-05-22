@@ -3,7 +3,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const SITE_BG_PHOTO = "/site/site-bg.jpg";
+const SITE_BG_PHOTO = "/site/fundo.png";
 const SITE_BG_TILE = "/site/frlg-grass-terrain.png";
 
 export function PokemonSiteBackground() {

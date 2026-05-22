@@ -13,7 +13,7 @@ export function AudioToggle() {
         playClick();
         toggleMuted();
       }}
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300/80 bg-slate-100/80 text-slate-600 transition hover:border-slate-400 hover:bg-white hover:text-slate-900"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-black/40 text-white/80 transition hover:border-white/40 hover:bg-white/10 hover:text-white"
       aria-label={muted ? "Ativar música" : "Silenciar música"}
       title={
         muted

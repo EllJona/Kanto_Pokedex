@@ -9,7 +9,7 @@ export function PokeballSpinner({ label = "Carregando…" }: { label?: string })
         }}
         aria-hidden
       />
-      <p className="text-sm font-medium text-slate-600">{label}</p>
+      <p className="text-on-bg text-sm font-medium">{label}</p>
     </div>
   );
 }

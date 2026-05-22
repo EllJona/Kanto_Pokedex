@@ -9,14 +9,11 @@ import type { PokemonSummary } from "@/lib/pokeapi";
 import { TYPE_COLORS } from "@/lib/typeColors";
 import { BentoPokemonCard } from "./BentoPokemonCard";
 import { CinematicHero } from "./CinematicHero";
-import { ExperienceGrain } from "./experience/ExperienceGrain";
-import { ScrollProgress } from "./experience/ScrollProgress";
 import { ScrollRevealLines } from "./experience/ScrollRevealLines";
 import { SectionReveal } from "./experience/SectionReveal";
 import { FloatingNav } from "./FloatingNav";
 import { PokemonDetailOverlay } from "./PokemonDetailOverlay";
 import { useAudio } from "@/components/providers/AudioProvider";
-import { SmoothScroll } from "./SmoothScroll";
 
 type Props = {
   initialPokemon: PokemonSummary[];
@@ -92,9 +89,7 @@ function PokedexInner({ initialPokemon, loadError }: Props) {
   );
 
   return (
-      <SmoothScroll>
-        <ScrollProgress />
-        <ExperienceGrain />
+      <>
         <FloatingNav onLogoClick={goHome} />
         <div className="relative min-h-screen">
           {loadError ? (
@@ -154,17 +149,17 @@ function PokedexInner({ initialPokemon, loadError }: Props) {
               >
                 <label className="relative block w-full max-w-md flex-1">
                   <span className="sr-only">Buscar</span>
-                  <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                  <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" />
                   <input
                     type="search"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Nome ou número…"
-                    className="w-full rounded-2xl border border-slate-300/80 bg-white/90 py-3.5 pl-11 pr-4 text-sm text-slate-800 outline-none ring-amber-400/0 transition placeholder:text-slate-400 focus:border-amber-500/50 focus:ring-4 focus:ring-amber-400/20"
+                    className="glass-field w-full py-3.5 pl-11 pr-4 text-sm transition"
                   />
                 </label>
-                <p className="shrink-0 text-xs text-slate-600 sm:text-sm">
-                  <span className="font-semibold text-slate-800">{filtered.length}</span>
+                <p className="text-on-bg-muted shrink-0 text-xs sm:text-sm">
+                  <span className="font-semibold text-white">{filtered.length}</span>
                   {" / "}
                   {initialPokemon.length}
                 </p>
@@ -199,8 +194,8 @@ function PokedexInner({ initialPokemon, loadError }: Props) {
                     }
                     className={`rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest transition sm:text-xs ${
                       typeFilter === t
-                        ? `border-amber-500/50 bg-amber-100/80 text-amber-900 ${glow ? "type-filter-glow" : ""}`
-                        : "border-slate-300/70 bg-white/50 text-slate-600 hover:border-slate-400 hover:bg-white/80 hover:text-slate-800"
+                        ? `border-amber-400/55 bg-amber-400/25 text-amber-50 ${glow ? "type-filter-glow" : ""}`
+                        : "border-white/25 bg-black/35 text-white/75 hover:border-white/40 hover:bg-black/50 hover:text-white"
                     }`}
                   >
                     {t !== "all" && (
@@ -218,12 +213,12 @@ function PokedexInner({ initialPokemon, loadError }: Props) {
             </motion.div>
 
             {initialPokemon.length === 0 && loadError ? (
-              <p className="py-12 text-center text-sm text-slate-600">
+              <p className="text-on-bg py-12 text-center text-sm">
                 Assim que a conexão voltar, use o botão acima ou recarregue a
                 página.
               </p>
             ) : filtered.length === 0 ? (
-              <p className="py-16 text-center text-slate-600">
+              <p className="text-on-bg py-16 text-center">
                 Nenhum resultado para esses filtros.
               </p>
             ) : (
@@ -247,7 +242,7 @@ function PokedexInner({ initialPokemon, loadError }: Props) {
           onClose={close}
           onNavigate={navigatePokemon}
         />
-      </SmoothScroll>
+      </>
   );
 }
 
@@ -255,7 +250,7 @@ export function PokedexExperience(props: Props) {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center text-slate-600">
+        <div className="text-on-bg flex min-h-screen items-center justify-center">
           Carregando…
         </div>
       }

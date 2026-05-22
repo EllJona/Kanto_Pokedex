@@ -81,7 +81,7 @@ export function CinematicHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, ease: easeEditorial }}
-          className="mb-5 font-display text-[10px] font-semibold uppercase tracking-[0.55em] text-[#2a6080] sm:text-xs"
+          className="text-on-bg-muted mb-5 font-display text-[10px] font-semibold uppercase tracking-[0.55em] sm:text-xs"
         >
           National Dex · 1996
         </motion.p>
@@ -105,7 +105,7 @@ export function CinematicHero() {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.95, delay: 0.14, ease: easeEditorial }}
-          className="text-shadow-pokemon mt-3 font-display text-[clamp(1.55rem,6.5vw,3.75rem)] font-bold uppercase tracking-[0.32em] text-white/92"
+          className="text-shadow-pokemon mt-3 font-display text-[clamp(1.55rem,6.5vw,3.75rem)] font-bold uppercase tracking-[0.32em] text-white"
         >
           Gen I
         </motion.h2>
@@ -113,7 +113,7 @@ export function CinematicHero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.22, ease: easeEditorial }}
-          className="experience-hero__lede mt-10 max-w-xl font-serif text-lg leading-relaxed text-[#1a3348]/88 sm:text-xl"
+          className="text-on-bg experience-hero__lede mt-10 max-w-xl font-serif text-lg leading-relaxed sm:text-xl"
         >
           Uma Pokédex para percorrer devagar — como uma rota entre relva e céu. Toque
           em qualquer criatura para abrir a ficha com movimento fluido.
