@@ -3,19 +3,127 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #6aad5a;
+  --foreground: #1a3348;
+  --surface: rgba(255, 255, 255, 0.78);
+  --line: rgba(26, 51, 72, 0.12);
+  --muted: rgba(26, 51, 72, 0.62);
+  --kanto-grass: #5cb848;
+  --kanto-grass-dark: #3d9438;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--kanto-grass-dark);
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: transparent;
+}
+
+/* Fundo decorativo (fixo atrás do conteúdo) */
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Camada borrada preenche ecrãs grandes sem faixa branca nas bordas */
+.site-bg-blur {
+  position: absolute;
+  inset: -8%;
+  background-size: cover;
+  background-position: center 38%;
+  background-repeat: no-repeat;
+  filter: blur(28px) saturate(1.12) brightness(1.02);
+  transform: scale(1.06);
+}
+
+.site-bg-photo {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 38%;
+  background-repeat: no-repeat;
+}
+
+/* Fallback pixel-art (só quando a foto não carrega) */
+.site-bg-pixel-fallback {
+  position: absolute;
+  inset: 0;
+  background-color: #88c8f0;
+  background-repeat: no-repeat, repeat-x;
+  image-rendering: pixelated;
+}
+
+.site-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.04) 14%,
+    transparent 38%,
+    transparent 78%,
+    rgba(30, 70, 42, 0.18) 100%
+  );
+  pointer-events: none;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-panel {
+    @apply border border-slate-800/10 bg-white/80 text-slate-800 shadow-[0_12px_40px_rgba(20,60,40,0.16)] backdrop-blur-md;
+  }
+
+  .text-shadow-pokemon {
+    text-shadow:
+      2px 2px 0 rgba(30, 74, 110, 0.35),
+      0 0 24px rgba(255, 255, 255, 0.5);
+  }
+
+  .holo-foil {
+    background: linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(255, 100, 150, 0.1) 18%,
+      rgba(80, 180, 255, 0.12) 38%,
+      rgba(255, 220, 80, 0.1) 58%,
+      rgba(160, 100, 255, 0.1) 78%,
+      transparent 100%
+    );
+    background-size: 220% 220%;
+    background-position: var(--holo-x, 50%) var(--holo-y, 50%);
+    mix-blend-mode: soft-light;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .group:hover .holo-foil {
+    opacity: 0.75;
+  }
+
+  .type-filter-glow {
+    box-shadow: 0 0 14px var(--type-glow, transparent);
+  }
+}
+
+/* Lenis + reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html.lenis,
+  html.lenis body {
+    height: auto !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-bg-photo,
+  .site-bg-blur {
+    background-position: center 42%;
+  }
 }
