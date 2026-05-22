@@ -9,11 +9,15 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     if (reduce) return;
 
     const lenis = new Lenis({
-      duration: 0.72,
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - 2 ** (-10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.2,
-      wheelMultiplier: 1.05,
+      touchMultiplier: 1.35,
+      wheelMultiplier: 0.92,
+      lerp: 0.085,
     });
+
+    document.documentElement.classList.add("lenis", "lenis-smooth");
 
     let raf = 0;
     function tick(time: number) {
@@ -24,6 +28,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
     return () => {
       cancelAnimationFrame(raf);
+      document.documentElement.classList.remove("lenis", "lenis-smooth");
       lenis.destroy();
     };
   }, []);

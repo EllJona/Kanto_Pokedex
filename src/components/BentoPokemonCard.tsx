@@ -63,13 +63,21 @@ export function BentoPokemonCard({ pokemon, index, onOpen, selected }: Props) {
     <motion.button
       ref={ref}
       type="button"
-      initial={{ opacity: 0, y: 36 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      initial={
+        reduce
+          ? { opacity: 0, y: 24 }
+          : { opacity: 0, y: 48, filter: "blur(10px)" }
+      }
+      whileInView={
+        reduce
+          ? { opacity: 1, y: 0 }
+          : { opacity: 1, y: 0, filter: "blur(0px)" }
+      }
+      viewport={{ once: true, margin: "-8%" }}
       transition={{
-        duration: reduce ? 0.01 : 0.22,
-        delay: reduce ? 0 : Math.min(index * 0.012, 0.15),
-        ease: [0.22, 1, 0.36, 1],
+        duration: reduce ? 0.01 : 0.75,
+        delay: reduce ? 0 : Math.min(index * 0.028, 0.35),
+        ease: [0.16, 1, 0.3, 1],
       }}
       style={{
         rotateX: reduce ? 0 : srx,

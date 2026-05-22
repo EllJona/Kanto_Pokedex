@@ -9,6 +9,10 @@ import type { PokemonSummary } from "@/lib/pokeapi";
 import { TYPE_COLORS } from "@/lib/typeColors";
 import { BentoPokemonCard } from "./BentoPokemonCard";
 import { CinematicHero } from "./CinematicHero";
+import { ExperienceGrain } from "./experience/ExperienceGrain";
+import { ScrollProgress } from "./experience/ScrollProgress";
+import { ScrollRevealLines } from "./experience/ScrollRevealLines";
+import { SectionReveal } from "./experience/SectionReveal";
 import { FloatingNav } from "./FloatingNav";
 import { PokemonDetailOverlay } from "./PokemonDetailOverlay";
 import { useAudio } from "@/components/providers/AudioProvider";
@@ -89,6 +93,8 @@ function PokedexInner({ initialPokemon, loadError }: Props) {
 
   return (
       <SmoothScroll>
+        <ScrollProgress />
+        <ExperienceGrain />
         <FloatingNav onLogoClick={goHome} />
         <div className="relative min-h-screen">
           {loadError ? (
@@ -107,7 +113,22 @@ function PokedexInner({ initialPokemon, loadError }: Props) {
           ) : null}
           <CinematicHero />
 
+          <ScrollRevealLines
+            lines={[
+              "A jornada começa com um passo fora de Pallet Town.",
+              "Cada rota guarda um encontro que ainda não nomeaste.",
+              "O que procuras no mapa já te procura na relva.",
+            ]}
+            attribution="— rota Kanto, Gen I"
+          />
+
           <section className="relative z-[1] mx-auto max-w-7xl px-4 pb-6 sm:px-8">
+            <SectionReveal
+              eyebrow="Explorar"
+              title="Os 151 originais"
+              description="Percorra o dex com scroll suave. Filtre por tipo, busque por nome — cada carta abre uma ficha com stats e evolução."
+              className="px-1"
+            />
             <motion.div
               initial="hidden"
               whileInView="show"

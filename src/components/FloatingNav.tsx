@@ -35,7 +35,7 @@ export function FloatingNav({ onLogoClick }: Props) {
         y: hidden ? -120 : 0,
         opacity: hidden ? 0 : 1,
       }}
-      transition={{ type: "spring", stiffness: 520, damping: 42 }}
+      transition={{ type: "spring", stiffness: 280, damping: 32 }}
       className="pointer-events-none fixed left-0 right-0 top-0 z-[90] flex justify-center px-4 pt-5"
     >
       <nav className="pointer-events-auto flex items-center gap-3 rounded-full border border-slate-300/80 bg-white/90 px-2 py-2 shadow-[0_8px_32px_rgba(42,90,140,0.18)] backdrop-blur-xl">

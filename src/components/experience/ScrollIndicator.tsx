@@ -1,9 +1,10 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import type { RefObject } from "react";
 
 type Props = {
-  target?: React.RefObject<HTMLElement | null>;
+  target?: RefObject<HTMLElement | null>;
 };
 
 export function ScrollIndicator({ target }: Props) {

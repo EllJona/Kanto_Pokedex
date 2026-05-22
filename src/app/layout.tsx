@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Syne } from "next/font/google";
+import { Cormorant_Garamond, Geist, Geist_Mono, Syne } from "next/font/google";
 import { PokemonSiteBackground } from "@/components/PokemonSiteBackground";
 import { AppProviders } from "@/components/providers/AppProviders";
 import "lenis/dist/lenis.css";
@@ -21,6 +21,13 @@ const syne = Syne({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+const cormorant = Cormorant_Garamond({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+});
+
 export const metadata: Metadata = {
   title: "Pokédex Kanto — Gen I",
   description:
@@ -35,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} min-h-screen font-sans text-kanto-ink antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} ${cormorant.variable} min-h-screen font-sans text-kanto-ink antialiased`}
       >
         <PokemonSiteBackground />
         <AppProviders>{children}</AppProviders>

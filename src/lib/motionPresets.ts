@@ -11,3 +11,15 @@ export const staggerReveal = {
   staggerChildren: 0.12,
   delayChildren: 0.08,
 } as const;
+
+/** UI rápida (overlays, modais). */
+export const UI_FAST = {
+  duration: 0.28,
+  ease: easeEditorial,
+} as const;
+
+export const UI_SPRING_PANEL = {
+  type: "spring" as const,
+  stiffness: 380,
+  damping: 36,
+};
