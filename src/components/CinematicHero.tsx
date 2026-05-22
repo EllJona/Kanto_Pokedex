@@ -77,6 +77,7 @@ export function CinematicHero() {
         }}
         className="relative mx-auto w-full max-w-7xl"
       >
+        
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
